@@ -1,17 +1,22 @@
 #pragma once
 
-/**
- * The Constants header provides a convenient place for teams to hold robot-wide
- * numerical or boolean constants.  This should not be used for any other
- * purpose.
- *
- * It is generally a good idea to place constants into subsystem- or
- * command-specific namespaces within this header, which can then be used where
- * they are needed.
- */
+namespace AutonConstants {
+constexpr double kDrivekP = 0;
+constexpr double kDrivekI = 0;
+constexpr double kDrivekD = 0;
+} // namespace AutonConstants
 
-const double DEADZONE = 0.05;
+namespace DriveConstants {
+constexpr uint8_t kLeftFrontPort = 1;
+constexpr uint8_t kLeftBackPort = 1;
+constexpr uint8_t kRightFrontPort = 1;
+constexpr uint8_t kRightBackPort = 1;
+} // namespace DriveConstants
 
-const int INTAKE_BUTTON = 2;
-const int INDEX_BUTTON = 3;
-const int SHOOTER_BUTTON = 1;
+namespace OIConstants {
+constexpr double kDeadzone = 0.05;
+constexpr uint8_t kIntakeButton = 2;
+constexpr uint8_t kIndexButton = 3;
+constexpr uint8_t kShooterButton = 1;
+constexpr uint8_t kDriverControllerPort = 1;
+} // namespace OIConstants

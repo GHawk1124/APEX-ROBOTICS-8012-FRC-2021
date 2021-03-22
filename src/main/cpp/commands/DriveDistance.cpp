@@ -1,15 +1,13 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+#include "commands/DriveDistance.h"
 
-#include "commands/Auton.h"
+using namespace AutonConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-Auton::Auton(DriveTrain *subsystem)
+DriveDistance::DriveDistance()
     : CommandHelper(
-          frc2::PIDController(0, 0, 0),
+          frc2::PIDController(kDrivekP, kDrivekI, kDrivekD),
           // This should return the measurement
           [] { return 0; },
           // This should return the setpoint (can also be a constant)
@@ -20,4 +18,6 @@ Auton::Auton(DriveTrain *subsystem)
           }) {}
 
 // Returns true when the command should end.
-bool Auton::IsFinished() { return false; }
+bool DriveDistance::IsFinished() {
+  return false;
+}

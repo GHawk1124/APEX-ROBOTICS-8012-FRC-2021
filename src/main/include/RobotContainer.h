@@ -1,22 +1,17 @@
 #pragma once
 
-#include "Constants.h"
-
+#include <frc/Joystick.h>
+#include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
 
-#include "commands/Auton.h"
+#include "Constants.h"
 
-#include "subsystems/DriveTrain.h"
-#include "subsystems/Intake.h"
-#include "subsystems/Shooter.h"
+#include "commands/DefaultAuto.h"
 
-/**
- * This class is where the bulk of the robot should be declared.  Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls).  Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
- */
+#include "subsystems/DriveSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
+#include "subsystems/ShooterSubsystem.h"
+
 class RobotContainer {
 public:
   RobotContainer();
@@ -25,11 +20,23 @@ public:
 
 private:
   // The robot's subsystems and commands are defined here...
-  DriveTrain m_DriveTrain_subsystem;
-  Intake m_Intake_subsystem;
-  Shooter m_Shooter_subsystem;
 
-  Auton m_autonomousCommand;
+  // The robot's subsystems
+  DriveSubsystem m_drive;
+  IntakeSubsystem m_intake;
+  ShooterSubsystem m_shooter;
+
+  // The autonomous routines
+  /* DriveDistance m_simpleAuto{AutoConstants::kAutoDriveDistanceInches,
+                             AutoConstants::kAutoDriveSpeed, &m_drive};
+  ComplexAuto m_complexAuto{&m_drive, &m_hatch}; */
+  DefaultAuto m_defaultAuto{&m_drive, &m_intake, &m_shooter};
+
+  // The chooser for the autonomous routines
+  frc::SendableChooser<frc2::Command *> m_chooser;
+
+  // The driver's controller
+  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
 
   void ConfigureButtonBindings();
 };

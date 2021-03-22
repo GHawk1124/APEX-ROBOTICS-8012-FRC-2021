@@ -5,47 +5,37 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {
-  imu.Calibrate();
-
-  m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-}
+void Robot::RobotInit() { /* imu.Calibrate(); */ }
 
 // ! Called EVERY robot packet, regardless of mode.
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
 
 void Robot::AutonomousInit() {
-  m_autoSelected = m_chooser.GetSelected();
-  std::cout << "Auto selected: " << m_autoSelected << std::endl;
+  m_autonomousCommand = m_container.GetAutonomousCommand();
 
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
+  if (m_autonomousCommand != nullptr) {
+    m_autonomousCommand->Schedule();
   }
 }
 
-void Robot::AutonomousPeriodic() {
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
+void Robot::AutonomousPeriodic() {}
+
+void Robot::TeleopInit() {
+  if (m_autonomousCommand != nullptr) {
+    m_autonomousCommand->Cancel();
+    m_autonomousCommand = nullptr;
   }
 }
-
-void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-  LF.Set(ControlMode::PercentOutput, m_stick->GetZ() - m_stick->GetY());
+/*   LF.Set(ControlMode::PercentOutput, m_stick->GetZ() - m_stick->GetY());
   LB.Set(ControlMode::PercentOutput, m_stick->GetZ() - m_stick->GetY());
   RF.Set(ControlMode::PercentOutput, m_stick->GetZ() + m_stick->GetY());
   RB.Set(ControlMode::PercentOutput, m_stick->GetZ() + m_stick->GetY());
 
   intake.Set(m_stick->GetRawButton(2));
   index.Set(m_stick->GetRawButton(3));
-  shooter.Set(m_stick->GetRawButton(1));
+  shooter.Set(m_stick->GetRawButton(1)); */
 }
 
 void Robot::DisabledInit() {}
