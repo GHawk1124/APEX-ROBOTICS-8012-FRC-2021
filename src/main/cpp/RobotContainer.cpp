@@ -31,6 +31,13 @@ RobotContainer::RobotContainer() {
   // Put the chooser on the dashboard
   frc::Shuffleboard::GetTab("Autonomous").Add(m_chooser);
 
+  // Calibrate Gyro
+  wpi::outs() << "Calibrating Gyro"
+              << "\n";
+  m_drive.calibrateGyro();
+  wpi::outs() << "Calibrated Gyro"
+              << "\n";
+
   // Configure the button bindings
   ConfigureButtonBindings();
 
@@ -50,7 +57,7 @@ void RobotContainer::ConfigureButtonBindings() {
       .WhenHeld(&m_intakeBall)
       .WhenReleased(&m_stopIntake);
   frc2::JoystickButton(&m_driverController, OIConstants::kIndexButton)
-      .WhenHeld(&m_spinUp)
+      .WhenHeld(&m_indexBall)
       .WhenReleased(&m_stopIndex);
 }
 
@@ -69,24 +76,24 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
   // Apply the voltage constraint
   config.AddConstraint(autoVoltageConstraint);
 
-  /*   // An example trajectory to follow.  All units in meters.
-    auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-        // Start at the origin facing the +X direction
-        frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
-        // End 3 meters straight ahead of where we started, facing forward
-        frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)),
-        // Pass the config
-        config); */
+  // An example trajectory to follow.  All units in meters.
+  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
 
-  wpi::SmallString<64> deployDirectory;
-  frc::filesystem::GetDeployDirectory(deployDirectory);
-  wpi::sys::path::append(deployDirectory, "output");
-  wpi::sys::path::append(deployDirectory, "test.wpilib.json");
+  /*   wpi::SmallString<64> deployDirectory;
+    frc::filesystem::GetDeployDirectory(deployDirectory);
+    wpi::sys::path::append(deployDirectory, "output");
+    wpi::sys::path::append(deployDirectory, "test.wpilib.json");
 
-  frc::Trajectory exampleTrajectory =
-      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
+    frc::Trajectory exampleTrajectory =
+        frc::TrajectoryUtil::FromPathweaverJson(deployDirectory); */
 
   frc2::RamseteCommand ramseteCommand(
       exampleTrajectory, [this]() { return m_drive.GetPose(); },

@@ -34,7 +34,7 @@ private:
   // DefaultAuto m_defaultAuto{&m_drive, &m_intake, &m_shooter};
 
   frc2::InstantCommand m_spinUp{[this] { m_shooter.spinUp(); }, {&m_shooter}};
-  frc2::InstantCommand m_index{[this] { m_shooter.shoot(); }, {&m_shooter}};
+  frc2::InstantCommand m_indexBall{[this] { m_shooter.shoot(); }, {&m_shooter}};
   frc2::InstantCommand m_intakeBall{[this] { m_intake.ActivateIntake(); },
                                     {&m_intake}};
 

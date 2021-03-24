@@ -30,10 +30,7 @@ void DriveSubsystem::Periodic() {
 // TODO: Add Traction Control
 // TODO: Change Drive Scaling
 void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
-  m_LF.Set(ControlMode::PercentOutput, fwd - rot);
-  m_LB.Set(ControlMode::PercentOutput, fwd - rot);
-  m_RF.Set(ControlMode::PercentOutput, fwd + rot);
-  m_RB.Set(ControlMode::PercentOutput, fwd + rot);
+  m_drive.ArcadeDrive(-1 * fwd, rot);
 }
 
 void DriveSubsystem::ResetEncoders() {
@@ -64,3 +61,5 @@ void DriveSubsystem::TankDriveVolts(units::volt_t left, units::volt_t right) {
   m_rightMotors.SetVoltage(-right);
   m_drive.Feed();
 }
+
+void DriveSubsystem::calibrateGyro() { m_gyro.Calibrate(); }

@@ -33,6 +33,8 @@ public:
 
   void TankDriveVolts(units::volt_t left, units::volt_t right);
 
+  void calibrateGyro();
+
 private:
   WPI_TalonFX m_LF;
   WPI_TalonFX m_LB;
