@@ -1,12 +1,18 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "subsystems/IntakeSubsystem.h"
 
-IntakeSubsystem::IntakeSubsystem() = default;
+#include "Constants.h"
 
-// This method will be called once per scheduler run
+IntakeSubsystem::IntakeSubsystem()
+    : m_intake{DriveConstants::Ports::kIntakePort} {}
+
 void IntakeSubsystem::Periodic() {}
 
-void IntakeSubsystem::ActivateIntake(double val) { m_intake.Set(val); }
+void IntakeSubsystem::ActivateIntake() {
+  m_intake.Set(OIConstants::kIntakeSpeed);
+}
+
+void IntakeSubsystem::outtake() {
+  m_intake.Set(-1 * OIConstants::kIntakeSpeed);
+}
+
+void IntakeSubsystem::stopMotors() { m_intake.Set(0); }

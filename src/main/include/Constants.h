@@ -20,15 +20,21 @@ constexpr double kRamseteZeta = 0.7;
 } // namespace AutoConstants
 
 namespace DriveConstants {
+namespace Ports {
 constexpr uint8_t kLeftFrontPort = 1;
 constexpr uint8_t kLeftBackPort = 1;
 constexpr uint8_t kRightFrontPort = 1;
 constexpr uint8_t kRightBackPort = 1;
 
+constexpr uint8_t kIntakePort = 1;
+constexpr uint8_t kIndexPort = 1;
+constexpr uint8_t kShooterPort = 1;
+} // namespace Ports
+
 constexpr auto kTrackwidth = 0.69_m;
 extern const frc::DifferentialDriveKinematics kDriveKinematics;
 
-constexpr int kEncoderCPR = 1024;
+constexpr int kEncoderCPR = 2048; // done
 constexpr double kWheelDiameterInches = 6;
 constexpr double kEncoderDistancePerPulse =
     // Assumes the encoders are directly mounted on the wheel shafts
@@ -53,4 +59,8 @@ constexpr uint8_t kIntakeButton = 2;
 constexpr uint8_t kIndexButton = 3;
 constexpr uint8_t kShooterButton = 1;
 constexpr uint8_t kDriverControllerPort = 1;
+
+constexpr double kIndexSpeed = 1;
+constexpr double kIntakeSpeed = 1;
+constexpr double kShooterSpeed = 0.75;
 } // namespace OIConstants

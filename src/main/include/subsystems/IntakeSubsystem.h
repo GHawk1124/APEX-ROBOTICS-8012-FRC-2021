@@ -12,15 +12,14 @@ class IntakeSubsystem : public frc2::SubsystemBase {
 public:
   IntakeSubsystem();
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
   void Periodic() override;
 
-  void ActivateIntake(double val);
+  void ActivateIntake();
+
+  void outtake();
+
+  void stopMotors();
 
 private:
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
-  WPI_VictorSPX m_intake{1};
+  WPI_VictorSPX m_intake;
 };

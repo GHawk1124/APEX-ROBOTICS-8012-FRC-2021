@@ -3,6 +3,7 @@
 #include <frc/Joystick.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
+#include <frc2/command/InstantCommand.h>
 
 #include "Constants.h"
 
@@ -28,7 +29,19 @@ private:
   /* DriveDistance m_simpleAuto{AutoConstants::kAutoDriveDistanceInches,
                              AutoConstants::kAutoDriveSpeed, &m_drive};
   ComplexAuto m_complexAuto{&m_drive, &m_hatch}; */
-  //DefaultAuto m_defaultAuto{&m_drive, &m_intake, &m_shooter};
+  // DefaultAuto m_defaultAuto{&m_drive, &m_intake, &m_shooter};
+
+  frc2::InstantCommand m_spinUp{[this] { m_shooter.spinUp(); }, {&m_shooter}};
+  frc2::InstantCommand m_index{[this] { m_shooter.shoot(); }, {&m_shooter}};
+  frc2::InstantCommand m_intakeBall{[this] { m_intake.ActivateIntake(); },
+                                    {&m_intake}};
+
+  frc2::InstantCommand m_stopShooter{[this] { m_shooter.stopShooter(); },
+                                     {&m_shooter}};
+  frc2::InstantCommand m_stopIndex{[this] { m_shooter.stopIndex(); },
+                                   {&m_shooter}};
+  frc2::InstantCommand m_stopIntake{[this] { m_intake.stopMotors(); },
+                                    {&m_intake}};
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command *> m_chooser;

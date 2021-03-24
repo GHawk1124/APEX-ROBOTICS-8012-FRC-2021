@@ -1,10 +1,17 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "subsystems/ShooterSubsystem.h"
 
-ShooterSubsystem::ShooterSubsystem() = default;
+#include "Constants.h"
 
-// This method will be called once per scheduler run
+ShooterSubsystem::ShooterSubsystem()
+    : m_index{DriveConstants::Ports::kIndexPort},
+      m_shooter{DriveConstants::Ports::kShooterPort} {}
+
 void ShooterSubsystem::Periodic() {}
+
+void ShooterSubsystem::spinUp() { m_shooter.Set(OIConstants::kShooterSpeed); }
+
+void ShooterSubsystem::shoot() { m_index.Set(OIConstants::kIndexSpeed); }
+
+void ShooterSubsystem::stopShooter() { m_shooter.Set(0); }
+
+void ShooterSubsystem::stopIndex() { m_index.Set(0); }
