@@ -11,6 +11,8 @@
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
 
+
+// TODO: Add custom frequency for checking controller inputs
 class RobotContainer {
 public:
   RobotContainer();
@@ -42,6 +44,8 @@ private:
                                    {&m_shooter}};
   frc2::InstantCommand m_stopIntake{[this] { m_intake.stopMotors(); },
                                     {&m_intake}};
+
+  // TODO: Add Commands for Drive Scaling
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command *> m_chooser;

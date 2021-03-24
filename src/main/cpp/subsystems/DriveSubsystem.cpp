@@ -9,10 +9,10 @@ using namespace Ports;
 DriveSubsystem::DriveSubsystem()
     : m_LF{kLeftFrontPort}, m_LB{kLeftBackPort}, m_RF{kRightFrontPort},
       m_RB{kRightBackPort}, m_odometry{m_gyro.GetRotation2d()} {
-  /*  m_LF.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse);
-        m_LB.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse);
-        m_RF.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse);
-        m_RB.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse); */
+  m_LF.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse);
+  m_LB.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse);
+  m_RF.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse);
+  m_RB.ConfigPulseWidthPeriod_EdgesPerRot(kEncoderDistancePerPulse);
 
   ResetEncoders();
 }
@@ -26,6 +26,9 @@ void DriveSubsystem::Periodic() {
                     units::meter_t(rightSideEncoders));
 }
 
+// TODO: Add Deadzone
+// TODO: Add Traction Control
+// TODO: Change Drive Scaling
 void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
   m_LF.Set(ControlMode::PercentOutput, fwd - rot);
   m_LB.Set(ControlMode::PercentOutput, fwd - rot);
