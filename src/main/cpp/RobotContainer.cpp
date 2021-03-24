@@ -19,7 +19,7 @@ RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
 
   // Add commands to the autonomous command chooser
-  m_chooser.SetDefaultOption("defaultAuto", &m_defaultAuto);
+  //m_chooser.SetDefaultOption("defaultAuto", &m_defaultAuto);
   // m_chooser.AddOption("Complex Auto", &m_complexAuto);
 
   // Put the chooser on the dashboard
@@ -42,7 +42,6 @@ void RobotContainer::ConfigureButtonBindings() {
   // - however, if you wish to avoid this, the commands should be
   // stack-allocated and declared as members of RobotContainer.
 
-
   /* // Grab the hatch when the 'A' button is pressed.
   frc2::JoystickButton(&m_driverController, 1)
       .WhenPressed(new GrabHatch(&m_hatch));
@@ -54,7 +53,7 @@ void RobotContainer::ConfigureButtonBindings() {
       .WhenHeld(new HalveDriveSpeed(&m_drive)); */
 }
 
-frc2::Command* RobotContainer::GetAutonomousCommand() {
+frc2::Command *RobotContainer::GetAutonomousCommand() {
   // Create a voltage constraint to ensure we don't accelerate too fast
   frc::DifferentialDriveVoltageConstraint autoVoltageConstraint(
       frc::SimpleMotorFeedforward<units::meters>(

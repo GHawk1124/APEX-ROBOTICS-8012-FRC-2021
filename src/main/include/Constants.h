@@ -17,7 +17,7 @@ constexpr auto kMaxAcceleration = 3_mps_sq;
 // seconds
 constexpr double kRamseteB = 2;
 constexpr double kRamseteZeta = 0.7;
-} // namespace AutonConstants
+} // namespace AutoConstants
 
 namespace DriveConstants {
 constexpr uint8_t kLeftFrontPort = 1;

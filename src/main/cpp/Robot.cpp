@@ -5,7 +5,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() { /* imu.Calibrate(); */ }
+void Robot::RobotInit() { /* imu.Calibrate(); */
+}
 
 // ! Called EVERY robot packet, regardless of mode.
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
@@ -28,14 +29,14 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-/*   LF.Set(ControlMode::PercentOutput, m_stick->GetZ() - m_stick->GetY());
-  LB.Set(ControlMode::PercentOutput, m_stick->GetZ() - m_stick->GetY());
-  RF.Set(ControlMode::PercentOutput, m_stick->GetZ() + m_stick->GetY());
-  RB.Set(ControlMode::PercentOutput, m_stick->GetZ() + m_stick->GetY());
+  /*   LF.Set(ControlMode::PercentOutput, m_stick->GetZ() - m_stick->GetY());
+    LB.Set(ControlMode::PercentOutput, m_stick->GetZ() - m_stick->GetY());
+    RF.Set(ControlMode::PercentOutput, m_stick->GetZ() + m_stick->GetY());
+    RB.Set(ControlMode::PercentOutput, m_stick->GetZ() + m_stick->GetY());
 
-  intake.Set(m_stick->GetRawButton(2));
-  index.Set(m_stick->GetRawButton(3));
-  shooter.Set(m_stick->GetRawButton(1)); */
+    intake.Set(m_stick->GetRawButton(2));
+    index.Set(m_stick->GetRawButton(3));
+    shooter.Set(m_stick->GetRawButton(1)); */
 }
 
 void Robot::DisabledInit() {}

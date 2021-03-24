@@ -39,7 +39,7 @@ private:
   WPI_TalonFX m_RF;
   WPI_TalonFX m_RB;
 
-    // The motors on the left side of the drive
+  // The motors on the left side of the drive
   frc::SpeedControllerGroup m_leftMotors{m_LF, m_LB};
 
   // The motors on the right side of the drive

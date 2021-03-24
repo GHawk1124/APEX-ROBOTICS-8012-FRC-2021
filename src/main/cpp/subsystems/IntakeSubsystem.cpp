@@ -9,6 +9,4 @@ IntakeSubsystem::IntakeSubsystem() = default;
 // This method will be called once per scheduler run
 void IntakeSubsystem::Periodic() {}
 
-void IntakeSubsystem::ActivateIntake(double val) {
-    m_intake.Set(val);
-}
+void IntakeSubsystem::ActivateIntake(double val) { m_intake.Set(val); }

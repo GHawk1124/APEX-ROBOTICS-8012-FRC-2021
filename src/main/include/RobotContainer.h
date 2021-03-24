@@ -6,8 +6,6 @@
 
 #include "Constants.h"
 
-#include "commands/DefaultAuto.h"
-
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
@@ -30,7 +28,7 @@ private:
   /* DriveDistance m_simpleAuto{AutoConstants::kAutoDriveDistanceInches,
                              AutoConstants::kAutoDriveSpeed, &m_drive};
   ComplexAuto m_complexAuto{&m_drive, &m_hatch}; */
-  DefaultAuto m_defaultAuto{&m_drive, &m_intake, &m_shooter};
+  //DefaultAuto m_defaultAuto{&m_drive, &m_intake, &m_shooter};
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command *> m_chooser;

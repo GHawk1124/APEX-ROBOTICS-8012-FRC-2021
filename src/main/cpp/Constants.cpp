@@ -1,4 +1,4 @@
 #include "Constants.h"
 
-const frc::DifferentialDriveKinematics DriveConstants::kDriveKinematics(
-    kTrackwidth);
+const frc::DifferentialDriveKinematics
+    DriveConstants::kDriveKinematics(kTrackwidth);
