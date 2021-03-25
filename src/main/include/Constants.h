@@ -37,7 +37,7 @@ constexpr double kTurnSensitivity = 0.5;
 constexpr auto kTrackwidth = 0.59_m;
 extern const frc::DifferentialDriveKinematics kDriveKinematics;
 
-constexpr int kEncoderCPR = 2048; // done
+constexpr int kEncoderCPR = 2048;
 constexpr double kWheelDiameterInches = 6.25;
 constexpr double kExternalGearRatio = 10.7142857143;
 constexpr double kEncoderDistancePerPulse =
@@ -45,13 +45,10 @@ constexpr double kEncoderDistancePerPulse =
     (kWheelDiameterInches * wpi::math::pi) /
     (static_cast<double>(kEncoderCPR) * kExternalGearRatio);
 
-// These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-// These characterization values MUST be determined either experimentally or
-// theoretically for *your* robot's drive. The Robot Characterization
-// Toolsuite provides a convenient tool for obtaining these values for your
-// robot.
 constexpr auto ks = 0.22_V;
+// Volts * Seconds / meter - Velocity Constant
 constexpr auto kv = 1.98 * 1_V * 1_s / 1_m;
+// Volts * Seconds^2 / meter - Acceleration Constant
 constexpr auto ka = 0.2 * 1_V * 1_s * 1_s / 1_m;
 
 // Example value only - as above, this must be tuned for your drive!
