@@ -31,6 +31,9 @@ constexpr uint8_t kIndexPort = 6;
 constexpr uint8_t kShooterPort = 7;
 } // namespace Ports
 
+constexpr double kTurnSensitivityCutoff = 0.9;
+constexpr double kTurnSensitivity = 0.5;
+
 constexpr auto kTrackwidth = 0.59_m;
 extern const frc::DifferentialDriveKinematics kDriveKinematics;
 
@@ -61,6 +64,7 @@ constexpr uint8_t kIntakeButton = 2;
 constexpr uint8_t kIndexButton = 3;
 constexpr uint8_t kShooterButton = 1;
 constexpr uint8_t kDriverControllerPort = 0;
+constexpr uint8_t kDriverController2Port = 1;
 
 constexpr double kIndexSpeed = 1;
 constexpr double kIntakeSpeed = 1;

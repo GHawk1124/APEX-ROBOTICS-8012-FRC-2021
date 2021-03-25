@@ -30,6 +30,7 @@ void DriveSubsystem::Periodic() {
 // TODO: Add Traction Control
 // TODO: Change Drive Scaling
 void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
+  rot = rot > kTurnSensitivityCutoff ? rot : rot * kTurnSensitivity;
   m_drive.ArcadeDrive(-1 * fwd, rot);
 }
 

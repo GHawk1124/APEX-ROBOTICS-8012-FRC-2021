@@ -1,6 +1,7 @@
 #pragma once
 
 #include <frc/Joystick.h>
+#include <frc/XboxController.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/InstantCommand.h>
@@ -52,6 +53,7 @@ private:
 
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
+  frc::XboxController m_driverController2{OIConstants::kDriverController2Port};
 
   void ConfigureButtonBindings();
 };
