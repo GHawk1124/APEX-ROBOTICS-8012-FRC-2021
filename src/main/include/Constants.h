@@ -36,10 +36,11 @@ extern const frc::DifferentialDriveKinematics kDriveKinematics;
 
 constexpr int kEncoderCPR = 2048; // done
 constexpr double kWheelDiameterInches = 6.25;
-constexpr double kExternalGearRatio = 10.714;
+constexpr double kExternalGearRatio = 10.7142857143;
 constexpr double kEncoderDistancePerPulse =
     // Assumes the encoders are directly mounted on the wheel shafts
-    (kWheelDiameterInches * wpi::math::pi * kExternalGearRatio) / static_cast<double>(kEncoderCPR);
+    (kWheelDiameterInches * wpi::math::pi) /
+    (static_cast<double>(kEncoderCPR) * kExternalGearRatio);
 
 // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
 // These characterization values MUST be determined either experimentally or
