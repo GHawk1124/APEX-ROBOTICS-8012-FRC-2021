@@ -45,11 +45,11 @@ constexpr double kEncoderDistancePerPulse =
     (kWheelDiameterInches * wpi::math::pi) /
     (static_cast<double>(kEncoderCPR) * kExternalGearRatio);
 
-constexpr auto ks = 0.22_V;
+constexpr auto ks = 0.636_V;
 // Volts * Seconds / meter - Velocity Constant
-constexpr auto kv = 1.98 * 1_V * 1_s / 1_m;
+constexpr auto kv = .11 * 1_V * 1_s / 1_m;
 // Volts * Seconds^2 / meter - Acceleration Constant
-constexpr auto ka = 0.2 * 1_V * 1_s * 1_s / 1_m;
+constexpr auto ka = 0.0048 * 1_V * 1_s * 1_s / 1_m;
 
 // Example value only - as above, this must be tuned for your drive!
 constexpr double kPDriveVel = 0.1;
