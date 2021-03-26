@@ -14,7 +14,7 @@ public:
 
   void Periodic() override;
 
-  void spinUp();
+  void spinUp(double throttle);
 
   void shoot();
 

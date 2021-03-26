@@ -1,4 +1,5 @@
 #include "subsystems/ShooterSubsystem.h"
+#include "commands/DefaultDrive.h"
 
 #include "Constants.h"
 
@@ -8,7 +9,7 @@ ShooterSubsystem::ShooterSubsystem()
 
 void ShooterSubsystem::Periodic() {}
 
-void ShooterSubsystem::spinUp() { m_shooter.Set(OIConstants::kShooterSpeed); }
+void ShooterSubsystem::spinUp(double throttle) { m_shooter.Set(OIConstants::kShooterSpeed * throttle); }
 
 void ShooterSubsystem::shoot() { m_index.Set(OIConstants::kIndexSpeed); }
 

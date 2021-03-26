@@ -51,7 +51,7 @@ void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
 
   frc2::JoystickButton(&m_driverController, OIConstants::kShooterButton)
-      .WhenHeld(&m_spinUp)
+      .WhenHeld(&m_spinUp, 1)
       .WhenReleased(&m_stopShooter);
   frc2::JoystickButton(&m_driverController, OIConstants::kIntakeButton)
       .WhenHeld(&m_intakeBall)
