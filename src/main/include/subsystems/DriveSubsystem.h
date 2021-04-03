@@ -55,4 +55,10 @@ private:
 
   // Odometry class for tracking robot pose
   frc::DifferentialDriveOdometry m_odometry;
+
+  double leftWheelAccel = 0;
+  double rightWheelAccel = 0;
+  
+  double lastfwd = 0;
+  double lastrot = 0;
 };

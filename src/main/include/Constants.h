@@ -31,6 +31,8 @@ constexpr uint8_t kIndexPort = 6;
 constexpr uint8_t kShooterPort = 7;
 } // namespace Ports
 
+constexpr double kTractionControlSensitivity = 1;
+
 constexpr double kTurnSensitivityCutoff = 0.99;
 constexpr double kTurnSensitivity = 0.65;
 
