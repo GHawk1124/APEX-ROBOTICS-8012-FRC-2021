@@ -21,6 +21,8 @@
 #include "Constants.h"
 #include "commands/DefaultDrive.h"
 
+using namespace DriveConstants;
+
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
 
@@ -66,7 +68,7 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
   frc::DifferentialDriveVoltageConstraint autoVoltageConstraint(
       frc::SimpleMotorFeedforward<units::meters>(
           DriveConstants::ks, DriveConstants::kv, DriveConstants::ka),
-      DriveConstants::kDriveKinematics, 10_V);
+      DriveConstants::kDriveKinematics, DriveConstants::kMaxDriveVoltage);
 
   // Set up config for trajectory
   frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
@@ -76,36 +78,30 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
   // Apply the voltage constraint
   config.AddConstraint(autoVoltageConstraint);
 
-  // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-      // Start at the origin facing the +X direction
-      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
-      // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)),
-      // Pass the config
-      config);
+  /*   // An example trajectory to follow.  All units in meters.
+    auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+        frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+        {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
+        frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)), config); */
 
-  /*   wpi::SmallString<64> deployDirectory;
-    frc::filesystem::GetDeployDirectory(deployDirectory);
-    wpi::sys::path::append(deployDirectory, "output");
-    wpi::sys::path::append(deployDirectory, "test.wpilib.json");
+  wpi::SmallString<64> deployDirectory;
+  frc::filesystem::GetDeployDirectory(deployDirectory);
+  wpi::sys::path::append(deployDirectory, "output");
+  wpi::sys::path::append(deployDirectory, "BarrelRacing.wpilib.json");
 
-    frc::Trajectory exampleTrajectory =
-        frc::TrajectoryUtil::FromPathweaverJson(deployDirectory); */
+  frc::Trajectory exampleTrajectory =
+      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
 
   frc2::RamseteCommand ramseteCommand(
       exampleTrajectory, [this]() { return m_drive.GetPose(); },
       frc::RamseteController(AutoConstants::kRamseteB,
                              AutoConstants::kRamseteZeta),
-      frc::SimpleMotorFeedforward<units::meters>(
-          DriveConstants::ks, DriveConstants::kv, DriveConstants::ka),
+      frc::SimpleMotorFeedforward<units::meters>(ks, kv, ka),
       DriveConstants::kDriveKinematics,
       [this] { return m_drive.GetWheelSpeeds(); },
-      frc2::PIDController(DriveConstants::kPDriveVel, 0, 0),
-      frc2::PIDController(DriveConstants::kPDriveVel, 0, 0),
-      [this](auto left, auto right) { m_drive.TankDriveVolts(left, right); },
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      [this](auto left, auto right) { m_drive.TankDriveVolts(-left, -right); },
       {&m_drive});
 
   // Reset odometry to the starting pose of the trajectory.

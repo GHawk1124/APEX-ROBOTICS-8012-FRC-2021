@@ -31,28 +31,32 @@ constexpr uint8_t kIndexPort = 6;
 constexpr uint8_t kShooterPort = 7;
 } // namespace Ports
 
-constexpr double kTurnSensitivityCutoff = 0.9;
-constexpr double kTurnSensitivity = 0.5;
+constexpr double kTurnSensitivityCutoff = 0.99;
+constexpr double kTurnSensitivity = 0.65;
 
 constexpr auto kTrackwidth = 0.59_m;
 extern const frc::DifferentialDriveKinematics kDriveKinematics;
 
 constexpr int kEncoderCPR = 2048;
-constexpr double kWheelDiameterInches = 6.25;
+constexpr double kWheelDiameterMeters = 6.25 * 0.0254;
 constexpr double kExternalGearRatio = 10.7142857143;
 constexpr double kEncoderDistancePerPulse =
     // Assumes the encoders are directly mounted on the wheel shafts
-    (kWheelDiameterInches * wpi::math::pi) /
+    1.7*(kWheelDiameterMeters * wpi::math::pi) /
     (static_cast<double>(kEncoderCPR) * kExternalGearRatio);
 
-constexpr auto ks = 0.636_V;
+constexpr auto kMaxDriveVoltage = 10_V;
+
+constexpr auto ks = 0.591_V;
 // Volts * Seconds / meter - Velocity Constant
-constexpr auto kv = .11 * 1_V * 1_s / 1_m;
+constexpr auto kv = 2.29 * 1_V * 1_s / 1_m;
 // Volts * Seconds^2 / meter - Acceleration Constant
-constexpr auto ka = 0.0048 * 1_V * 1_s * 1_s / 1_m;
+constexpr auto ka = 0.149 * 1_V * 1_s * 1_s / 1_m;
 
 // Example value only - as above, this must be tuned for your drive!
-constexpr double kPDriveVel = 0.1;
+constexpr double kPDriveVel = 0.3;
+constexpr double kIDriveVel = 0;
+constexpr double kDDriveVel = 0;
 } // namespace DriveConstants
 
 namespace OIConstants {
