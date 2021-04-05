@@ -58,7 +58,6 @@ private:
 
   double leftWheelAccel = 0;
   double rightWheelAccel = 0;
-  
-  double lastfwd = 0;
-  double lastrot = 0;
+  double prevleftWheelSpeed = 0;
+  double prevrightWheelSpeed = 0;
 };

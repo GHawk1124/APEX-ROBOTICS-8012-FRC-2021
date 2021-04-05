@@ -48,28 +48,32 @@ void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
   fwd = std::fabs(fwd) > OIConstants::kDeadzone ? fwd : 0;
 
   leftWheelAccel =
-      std::fabs(leftWheelAccel - GetWheelSpeeds().left.to<double>()) / 0.05;
+      std::fabs(prevleftWheelSpeed - GetWheelSpeeds().left.to<double>()) / 0.05;
   rightWheelAccel =
-      std::fabs(rightWheelAccel - GetWheelSpeeds().right.to<double>()) / 0.05;
+      std::fabs(prevrightWheelSpeed - GetWheelSpeeds().right.to<double>()) / 0.05;
+  
+  prevleftWheelSpeed = GetWheelSpeeds().left.to<double>();
+  prevrightWheelSpeed = GetWheelSpeeds().right.to<double>();
 
   double leftSpeed =
       (leftWheelAccel <= DriveConstants::kTractionControlSensitivity)
           ? (fwd - rot)
-          : (lastfwd - lastrot);
+          : (fwd - rot)*.5;
   double rightSpeed =
       (rightWheelAccel <= DriveConstants::kTractionControlSensitivity)
           ? (fwd + rot)
-          : (lastfwd + lastrot);
+          : (fwd + rot)*.5;
 
-  lastfwd = fwd;
-  lastrot = rot;
+  wpi::outs() << leftWheelAccel << "\n";
+  wpi::outs() << rightWheelAccel << "\n";
+
+  m_drive.ArcadeDrive(0, 0);
 
   m_LF.Set(ControlMode::PercentOutput, leftSpeed);
   m_LB.Set(ControlMode::PercentOutput, leftSpeed);
   m_RF.Set(ControlMode::PercentOutput, rightSpeed);
   m_RB.Set(ControlMode::PercentOutput, rightSpeed);
 
-  // m_drive.ArcadeDrive(-1 * fwd, rot);
 }
 
 void DriveSubsystem::ResetEncoders() {
