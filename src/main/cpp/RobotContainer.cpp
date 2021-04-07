@@ -78,22 +78,22 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
   // Apply the voltage constraint
   config.AddConstraint(autoVoltageConstraint);
 
-  // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+/*   // An example trajectory to follow.  All units in meters.
+  auto Trajectory = frc::TrajectoryGenerator::GenerateTrajectory(
       frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
       {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
-      frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)), config);
+      frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)), config); */
 
-  /*   wpi::SmallString<64> deployDirectory;
-    frc::filesystem::GetDeployDirectory(deployDirectory);
-    wpi::sys::path::append(deployDirectory, "output");
-    wpi::sys::path::append(deployDirectory, "BarrelRacing.wpilib.json");
+  wpi::SmallString<64> deployDirectory;
+  frc::filesystem::GetDeployDirectory(deployDirectory);
+  wpi::sys::path::append(deployDirectory, "output");
+  wpi::sys::path::append(deployDirectory, AutonConstants::kPathName);
 
-    frc::Trajectory exampleTrajectory =
-        frc::TrajectoryUtil::FromPathweaverJson(deployDirectory); */
+  frc::Trajectory Trajectory =
+      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
 
   frc2::RamseteCommand ramseteCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+      Trajectory, [this]() { return m_drive.GetPose(); },
       frc::RamseteController(AutoConstants::kRamseteB,
                              AutoConstants::kRamseteZeta),
       frc::SimpleMotorFeedforward<units::meters>(ks, kv, ka),

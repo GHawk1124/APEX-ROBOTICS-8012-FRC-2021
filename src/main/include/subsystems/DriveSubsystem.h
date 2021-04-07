@@ -35,6 +35,8 @@ public:
 
   void calibrateGyro();
 
+  void reverseMotors(bool current);
+
 private:
   WPI_TalonFX m_LF;
   WPI_TalonFX m_LB;
@@ -60,4 +62,7 @@ private:
   double rightWheelAccel = 0;
   double prevleftWheelSpeed = 0;
   double prevrightWheelSpeed = 0;
+
+  double ldownScale = 1;
+  double rdownScale = 1;
 };
