@@ -11,6 +11,14 @@
 #include <frc/kinematics/DifferentialDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
 
+#include <frc/Filesystem.h>
+#include <frc/trajectory/TrajectoryUtil.h>
+#include <wpi/Path.h>
+#include <wpi/SmallString.h>
+
+#include <frc/trajectory/Trajectory.h>
+#include <frc/trajectory/TrajectoryGenerator.h>
+
 #include "ctre/Phoenix.h"
 
 #include "Constants.h"
@@ -36,6 +44,11 @@ public:
   void calibrateGyro();
 
   void reverseMotors(bool current);
+
+  void ResetOdometry1();
+  void ResetOdometry2();
+  void ResetOdometry3();
+  void ResetOdometry4();
 
 private:
   WPI_TalonFX m_LF;
@@ -65,4 +78,12 @@ private:
 
   double ldownScale = 1;
   double rdownScale = 1;
+
+  bool driveBackwards = false;
+
+public:
+  frc::Trajectory Trajectory1;
+  frc::Trajectory Trajectory2;
+  frc::Trajectory Trajectory3;
+  frc::Trajectory Trajectory4;
 };

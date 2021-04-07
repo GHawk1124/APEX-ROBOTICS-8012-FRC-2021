@@ -64,36 +64,28 @@ void RobotContainer::ConfigureButtonBindings() {
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand() {
-  // Create a voltage constraint to ensure we don't accelerate too fast
-  frc::DifferentialDriveVoltageConstraint autoVoltageConstraint(
-      frc::SimpleMotorFeedforward<units::meters>(
-          DriveConstants::ks, DriveConstants::kv, DriveConstants::ka),
-      DriveConstants::kDriveKinematics, DriveConstants::kMaxDriveVoltage);
+  /*   // Create a voltage constraint to ensure we don't accelerate too fast
+    frc::DifferentialDriveVoltageConstraint autoVoltageConstraint(
+        frc::SimpleMotorFeedforward<units::meters>(
+            DriveConstants::ks, DriveConstants::kv, DriveConstants::ka),
+        DriveConstants::kDriveKinematics, DriveConstants::kMaxDriveVoltage); */
 
-  // Set up config for trajectory
-  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
-                               AutoConstants::kMaxAcceleration);
-  // Add kinematics to ensure max speed is actually obeyed
-  config.SetKinematics(DriveConstants::kDriveKinematics);
-  // Apply the voltage constraint
-  config.AddConstraint(autoVoltageConstraint);
+  /*   // Set up config for trajectory
+    frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+                                 AutoConstants::kMaxAcceleration);
+    // Add kinematics to ensure max speed is actually obeyed
+    config.SetKinematics(DriveConstants::kDriveKinematics);
+    // Apply the voltage constraint
+    config.AddConstraint(autoVoltageConstraint); */
 
-/*   // An example trajectory to follow.  All units in meters.
-  auto Trajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-      {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
-      frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)), config); */
+  /*      // An example trajectory to follow.  All units in meters.
+      auto Trajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+          frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+          {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
+          frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)), config);  */
 
-  wpi::SmallString<64> deployDirectory;
-  frc::filesystem::GetDeployDirectory(deployDirectory);
-  wpi::sys::path::append(deployDirectory, "output");
-  wpi::sys::path::append(deployDirectory, AutoConstants::kPathName);
-
-  frc::Trajectory Trajectory =
-      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
-
-  frc2::RamseteCommand ramseteCommand(
-      Trajectory, [this]() { return m_drive.GetPose(); },
+  frc2::RamseteCommand ramseteCommand1(
+      m_drive.Trajectory1, [this]() { return m_drive.GetPose(); },
       frc::RamseteController(AutoConstants::kRamseteB,
                              AutoConstants::kRamseteZeta),
       frc::SimpleMotorFeedforward<units::meters>(ks, kv, ka),
@@ -104,11 +96,57 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
       [this](auto left, auto right) { m_drive.TankDriveVolts(-left, -right); },
       {&m_drive});
 
-  // Reset odometry to the starting pose of the trajectory.
-  m_drive.ResetOdometry(Trajectory.InitialPose());
+  frc2::RamseteCommand ramseteCommand2(
+      m_drive.Trajectory2, [this]() { return m_drive.GetPose(); },
+      frc::RamseteController(AutoConstants::kRamseteB,
+                             AutoConstants::kRamseteZeta),
+      frc::SimpleMotorFeedforward<units::meters>(ks, kv, ka),
+      DriveConstants::kDriveKinematics,
+      [this] { return m_drive.GetWheelSpeeds(); },
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      [this](auto left, auto right) { m_drive.TankDriveVolts(-right, -left); },
+      {&m_drive});
 
-  // no auto
+  frc2::RamseteCommand ramseteCommand3(
+      m_drive.Trajectory3, [this]() { return m_drive.GetPose(); },
+      frc::RamseteController(AutoConstants::kRamseteB,
+                             AutoConstants::kRamseteZeta),
+      frc::SimpleMotorFeedforward<units::meters>(ks, kv, ka),
+      DriveConstants::kDriveKinematics,
+      [this] { return m_drive.GetWheelSpeeds(); },
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      [this](auto left, auto right) { m_drive.TankDriveVolts(-left, -right); },
+      {&m_drive});
+
+  frc2::RamseteCommand ramseteCommand4(
+      m_drive.Trajectory4, [this]() { return m_drive.GetPose(); },
+      frc::RamseteController(AutoConstants::kRamseteB,
+                             AutoConstants::kRamseteZeta),
+      frc::SimpleMotorFeedforward<units::meters>(ks, kv, ka),
+      DriveConstants::kDriveKinematics,
+      [this] { return m_drive.GetWheelSpeeds(); },
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      frc2::PIDController(kPDriveVel, kIDriveVel, kDDriveVel),
+      [this](auto left, auto right) { m_drive.TankDriveVolts(-right, -left); },
+      {&m_drive});
+
   return new frc2::SequentialCommandGroup(
-      std::move(ramseteCommand),
+      frc2::InstantCommand([this] { m_drive.ResetOdometry1(); }, {}),
+      std::move(ramseteCommand1),
+      frc2::InstantCommand([this] { m_drive.TankDriveVolts(0_V, 0_V); }, {}),
+      frc2::InstantCommand([this] { m_drive.ResetOdometry2(); }, {}),
+      frc2::InstantCommand([this] { m_drive.reverseMotors(true); }, {}),
+      std::move(ramseteCommand2),
+      frc2::InstantCommand([this] { m_drive.TankDriveVolts(0_V, 0_V); }, {}),
+      frc2::InstantCommand([this] { m_drive.ResetOdometry3(); }, {}),
+      frc2::InstantCommand([this] { m_drive.reverseMotors(false); }, {}),
+      std::move(ramseteCommand3),
+      frc2::InstantCommand([this] { m_drive.TankDriveVolts(0_V, 0_V); }, {}),
+      frc2::InstantCommand([this] { m_drive.ResetOdometry4(); }, {}),
+      frc2::InstantCommand([this] { m_drive.reverseMotors(true); }, {}),
+      std::move(ramseteCommand4),
+      frc2::InstantCommand([this] { m_drive.reverseMotors(false); }, {}),
       frc2::InstantCommand([this] { m_drive.TankDriveVolts(0_V, 0_V); }, {}));
 }

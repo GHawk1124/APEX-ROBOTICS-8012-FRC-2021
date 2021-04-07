@@ -20,6 +20,30 @@ DriveSubsystem::DriveSubsystem()
   m_RB.SetNeutralMode(NeutralMode::Coast);
 
   ResetEncoders();
+
+  wpi::SmallString<64> deployDirectory;
+  frc::filesystem::GetDeployDirectory(deployDirectory);
+  wpi::sys::path::append(deployDirectory, "output");
+  wpi::sys::path::append(deployDirectory, "SmartBounce1.wpilib.json");
+
+  frc::Trajectory Trajectory1 =
+      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
+  wpi::sys::path::remove_filename(deployDirectory);
+
+  wpi::sys::path::append(deployDirectory, "SmartBounce2.wpilib.json");
+  frc::Trajectory Trajectory2 =
+      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
+  wpi::sys::path::remove_filename(deployDirectory);
+
+  wpi::sys::path::append(deployDirectory, "SmartBounce3.wpilib.json");
+  frc::Trajectory Trajectory3 =
+      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
+  wpi::sys::path::remove_filename(deployDirectory);
+
+  wpi::sys::path::append(deployDirectory, "SmartBounce4.wpilib.json");
+  frc::Trajectory Trajectory4 =
+      frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
+  wpi::sys::path::remove_filename(deployDirectory);
 }
 
 void DriveSubsystem::Periodic() {
@@ -32,9 +56,13 @@ void DriveSubsystem::Periodic() {
       leftSideEncoders * DriveConstants::kEncoderDistancePerPulse;
   rightSideEncoders =
       leftSideEncoders * DriveConstants::kEncoderDistancePerPulse;
-
-  m_odometry.Update(m_gyro.GetRotation2d(), units::meter_t(leftSideEncoders),
-                    units::meter_t(rightSideEncoders));
+  if (driveBackwards) {
+    m_odometry.Update(m_gyro.GetRotation2d(), units::meter_t(leftSideEncoders),
+                      units::meter_t(rightSideEncoders));
+  } else {
+    m_odometry.Update(m_gyro.GetRotation2d(), units::meter_t(leftSideEncoders),
+                      units::meter_t(rightSideEncoders));
+  }
 }
 
 // * DONE: Add Deadzone
@@ -59,7 +87,8 @@ void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
   double leftSpeed;
   double rightSpeed;
 
-  if (leftWheelAccel <= DriveConstants::kTractionControlSensitivity) {
+  if (std::fabs(leftWheelAccel) <=
+      DriveConstants::kTractionControlSensitivity) {
     leftSpeed = (fwd - rot);
     if (ldownScale != 1) {
       ldownScale += 0.01;
@@ -69,14 +98,15 @@ void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
     leftSpeed = (fwd - rot) * ldownScale;
   }
 
-  if (rightWheelAccel <= DriveConstants::kTractionControlSensitivity) {
-    rightSpeed = (fwd - rot);
+  if (std::fabs(rightWheelAccel) <=
+      DriveConstants::kTractionControlSensitivity) {
+    rightSpeed = (fwd + rot);
     if (rdownScale != 1) {
       rdownScale += 0.01;
     }
   } else {
     rdownScale -= 0.01;
-    rightSpeed = (fwd - rot) * rdownScale;
+    rightSpeed = (fwd + rot) * rdownScale;
   }
 
   /*   double leftSpeed =
@@ -88,8 +118,8 @@ void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
             ? (fwd + rot)
             : (fwd + rot)*.5; */
 
-  wpi::outs() << leftWheelAccel << "\n";
-  wpi::outs() << rightWheelAccel << "\n";
+  /*   wpi::outs() << leftWheelAccel << "\n";
+    wpi::outs() << rightWheelAccel << "\n"; */
 
   m_drive.ArcadeDrive(0, 0);
 
@@ -127,6 +157,23 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
   m_odometry.ResetPosition(pose, m_gyro.GetRotation2d());
 }
 
+void DriveSubsystem::ResetOdometry1() {
+  ResetEncoders();
+  m_odometry.ResetPosition(Trajectory1.InitialPose(), m_gyro.GetRotation2d());
+}
+void DriveSubsystem::ResetOdometry2() {
+  ResetEncoders();
+  m_odometry.ResetPosition(Trajectory2.InitialPose(), m_gyro.GetRotation2d());
+}
+void DriveSubsystem::ResetOdometry3() {
+  ResetEncoders();
+  m_odometry.ResetPosition(Trajectory3.InitialPose(), m_gyro.GetRotation2d());
+}
+void DriveSubsystem::ResetOdometry4() {
+  ResetEncoders();
+  m_odometry.ResetPosition(Trajectory4.InitialPose(), m_gyro.GetRotation2d());
+}
+
 void DriveSubsystem::TankDriveVolts(units::volt_t left, units::volt_t right) {
   m_leftMotors.SetVoltage(-left);
   m_rightMotors.SetVoltage(right);
@@ -140,4 +187,5 @@ void DriveSubsystem::reverseMotors(bool current) {
   m_LB.SetInverted(current);
   m_RF.SetInverted(current);
   m_RB.SetInverted(current);
+  driveBackwards = current;
 }

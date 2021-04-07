@@ -18,7 +18,7 @@ constexpr auto kMaxAcceleration = 1_mps_sq;
 constexpr double kRamseteB = 2;
 constexpr double kRamseteZeta = 0.7;
 
-constexpr char *kPathName = "BarrelRacing.wpilib.json";
+constexpr const char *kPathName = "BarrelRacing.wpilib.json";
 } // namespace AutoConstants
 
 namespace DriveConstants {
@@ -33,7 +33,7 @@ constexpr uint8_t kIndexPort = 6;
 constexpr uint8_t kShooterPort = 7;
 } // namespace Ports
 
-constexpr double kTractionControlSensitivity = 1;
+constexpr double kTractionControlSensitivity = 100;
 
 constexpr double kTurnSensitivityCutoff = 0.99;
 constexpr double kTurnSensitivity = 0.65;
@@ -46,7 +46,7 @@ constexpr double kWheelDiameterMeters = 6.25 * 0.0254;
 constexpr double kExternalGearRatio = 10.7142857143;
 constexpr double kEncoderDistancePerPulse =
     // Assumes the encoders are directly mounted on the wheel shafts
-    1.2 * (kWheelDiameterMeters * wpi::math::pi) /
+    1.795 * (kWheelDiameterMeters * wpi::math::pi) /
     (static_cast<double>(kEncoderCPR) * kExternalGearRatio);
 
 constexpr auto kMaxDriveVoltage = 10_V;
