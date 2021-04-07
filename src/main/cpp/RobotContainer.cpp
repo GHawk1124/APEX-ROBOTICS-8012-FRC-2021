@@ -87,7 +87,7 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
   wpi::SmallString<64> deployDirectory;
   frc::filesystem::GetDeployDirectory(deployDirectory);
   wpi::sys::path::append(deployDirectory, "output");
-  wpi::sys::path::append(deployDirectory, AutonConstants::kPathName);
+  wpi::sys::path::append(deployDirectory, AutoConstants::kPathName);
 
   frc::Trajectory Trajectory =
       frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
@@ -105,7 +105,7 @@ frc2::Command *RobotContainer::GetAutonomousCommand() {
       {&m_drive});
 
   // Reset odometry to the starting pose of the trajectory.
-  m_drive.ResetOdometry(exampleTrajectory.InitialPose());
+  m_drive.ResetOdometry(Trajectory.InitialPose());
 
   // no auto
   return new frc2::SequentialCommandGroup(

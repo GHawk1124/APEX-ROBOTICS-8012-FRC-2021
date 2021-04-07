@@ -50,19 +50,43 @@ void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
   leftWheelAccel =
       std::fabs(prevleftWheelSpeed - GetWheelSpeeds().left.to<double>()) / 0.05;
   rightWheelAccel =
-      std::fabs(prevrightWheelSpeed - GetWheelSpeeds().right.to<double>()) / 0.05;
-  
+      std::fabs(prevrightWheelSpeed - GetWheelSpeeds().right.to<double>()) /
+      0.05;
+
   prevleftWheelSpeed = GetWheelSpeeds().left.to<double>();
   prevrightWheelSpeed = GetWheelSpeeds().right.to<double>();
 
-  double leftSpeed =
-      (leftWheelAccel <= DriveConstants::kTractionControlSensitivity)
-          ? (fwd - rot)
-          : (fwd - rot)*.5;
-  double rightSpeed =
-      (rightWheelAccel <= DriveConstants::kTractionControlSensitivity)
-          ? (fwd + rot)
-          : (fwd + rot)*.5;
+  double leftSpeed;
+  double rightSpeed;
+
+  if (leftWheelAccel <= DriveConstants::kTractionControlSensitivity) {
+    leftSpeed = (fwd - rot);
+    if (ldownScale != 1) {
+      ldownScale += 0.01;
+    }
+  } else {
+    ldownScale -= 0.01;
+    leftSpeed = (fwd - rot) * ldownScale;
+  }
+
+  if (rightWheelAccel <= DriveConstants::kTractionControlSensitivity) {
+    rightSpeed = (fwd - rot);
+    if (rdownScale != 1) {
+      rdownScale += 0.01;
+    }
+  } else {
+    rdownScale -= 0.01;
+    rightSpeed = (fwd - rot) * rdownScale;
+  }
+
+  /*   double leftSpeed =
+        (leftWheelAccel <= DriveConstants::kTractionControlSensitivity)
+            ? (fwd - rot)
+            : (fwd - rot)*.5;
+    double rightSpeed =
+        (rightWheelAccel <= DriveConstants::kTractionControlSensitivity)
+            ? (fwd + rot)
+            : (fwd + rot)*.5; */
 
   wpi::outs() << leftWheelAccel << "\n";
   wpi::outs() << rightWheelAccel << "\n";
@@ -73,7 +97,6 @@ void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
   m_LB.Set(ControlMode::PercentOutput, leftSpeed);
   m_RF.Set(ControlMode::PercentOutput, rightSpeed);
   m_RB.Set(ControlMode::PercentOutput, rightSpeed);
-
 }
 
 void DriveSubsystem::ResetEncoders() {
@@ -111,3 +134,10 @@ void DriveSubsystem::TankDriveVolts(units::volt_t left, units::volt_t right) {
 }
 
 void DriveSubsystem::calibrateGyro() { m_gyro.Calibrate(); }
+
+void DriveSubsystem::reverseMotors(bool current) {
+  m_LF.SetInverted(current);
+  m_LB.SetInverted(current);
+  m_RF.SetInverted(current);
+  m_RB.SetInverted(current);
+}
